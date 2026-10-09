@@ -1,4 +1,4 @@
-name: Node CI
+name: Build and publish spec
 
 on:
   push:
@@ -10,10 +10,15 @@ jobs:
   validate-and-publish:
     name: Validate and Publish
     runs-on: ubuntu-latest # only linux supported at present
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v7
       - uses: w3c/spec-prod@v2
         with:
-          TOOLCHAIN: respec
+          TOOLCHAIN: bikeshed
+          SOURCE: index.bs
+          DESTINATION: index.html
+          BUILD_FAIL_ON: everything
           VALIDATE_LINKS: false
           GH_PAGES_BRANCH: gh-pages
